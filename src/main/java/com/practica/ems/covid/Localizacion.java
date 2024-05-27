@@ -65,6 +65,7 @@ public class Localizacion {
 
 	@Override
 	public String toString() {
+		//nuevo string para sonarcloud check
 		String cadena = "";
 		for (PosicionPersona pp: lista) {
 			cadena += pp.toString();
