@@ -6,9 +6,22 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 public class FechaHora implements Comparable<FechaHora>{
-	public class Fecha {
+	public static class Fecha {
 		private int dia, mes, anio;
-		 
+
+		public static Fecha parseFecha(String data) throws IllegalArgumentException{
+			String[] valores = data.split("\\/");
+			if (valores.length != 3) {
+				throw new IllegalArgumentException("Formato de fecha incorrecto");
+			}
+
+			int dia = Integer.parseInt(valores[0]);
+			int mes = Integer.parseInt(valores[1]);
+			int anio = Integer.parseInt(valores[2]);
+
+			return new Fecha(dia, mes, anio);
+		}
+
 		public Fecha(int dia, int mes, int anio) {
 			super();
 			this.dia = dia;
@@ -45,13 +58,25 @@ public class FechaHora implements Comparable<FechaHora>{
 			String cadena = String.format("%2d/%02d/%4d",dia,mes,anio);
 			return cadena;
 		}
-		
-		
+
+
 
 	}
 
-	public class Hora {
+	public static class Hora {
 		private int hora, minuto;
+
+		public static Hora parseHora(String data) throws IllegalArgumentException {
+			String[] valores = data.split("\\:");
+			if (valores.length != 2) {
+				throw new IllegalArgumentException("Formato de hora incorrecto");
+			}
+
+			int hora = Integer.parseInt(valores[0]);
+			int minuto = Integer.parseInt(valores[1]);
+
+			return new Hora(hora, minuto);
+		}
 
 		public Hora(int hora, int minuto) {
 			super();
@@ -79,13 +104,25 @@ public class FechaHora implements Comparable<FechaHora>{
 		public String toString() {
 			return String.format("%02d:%02d", hora,minuto);
 		}
-		
+
 
 	}
 
 	Fecha fecha;
 	Hora hora;
-	
+
+	public static FechaHora parseFecha(String fecha) throws IllegalArgumentException{
+		Fecha date = Fecha.parseFecha(fecha);
+		Hora time = new Hora(0, 0);
+		return new FechaHora(date, time);
+	}
+
+	public static FechaHora parseFecha(String fecha, String hora) throws IllegalArgumentException{
+		Fecha date = Fecha.parseFecha(fecha);
+		Hora time = Hora.parseHora(hora);
+		return new FechaHora(date, time);
+	}
+
 	public FechaHora(Fecha fecha, Hora hora) {
 		super();
 		this.fecha = fecha;
@@ -139,13 +176,12 @@ public class FechaHora implements Comparable<FechaHora>{
 
 	@Override
 	public int compareTo(FechaHora o) {
-		LocalDateTime dateTime1= LocalDateTime.of(this.getFecha().getAnio(), this.getFecha().getMes(), this.getFecha().getDia(), 
+		LocalDateTime dateTime1= LocalDateTime.of(this.getFecha().getAnio(), this.getFecha().getMes(), this.getFecha().getDia(),
 				this.getHora().getHora(), this.getHora().getMinuto());
-		LocalDateTime dateTime2= LocalDateTime.of(o.getFecha().getAnio(), o.getFecha().getMes(), o.getFecha().getDia(), 
+		LocalDateTime dateTime2= LocalDateTime.of(o.getFecha().getAnio(), o.getFecha().getMes(), o.getFecha().getDia(),
 				o.getHora().getHora(), o.getHora().getMinuto());
-		
+
 		return dateTime1.compareTo(dateTime2);
 	}
-	
-	
+
 }
