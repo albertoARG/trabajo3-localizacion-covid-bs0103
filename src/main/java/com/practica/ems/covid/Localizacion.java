@@ -62,41 +62,20 @@ public class Localizacion {
 			throw new EmsLocalizationNotFoundException();
 		}
 	}
-	void printLocalizacion() {    
-	    for(int i = 0; i < this.lista.size(); i++) {
-	        System.out.printf("%d;%s;", i, lista.get(i).getDocumento());
-	        FechaHora fecha = lista.get(i).getFechaPosicion();        
-	        System.out.printf("%02d/%02d/%04d;%02d:%02d;", 
-	        		fecha.getFecha().getDia(), 
-	        		fecha.getFecha().getMes(), 
-	        		fecha.getFecha().getAnio(),
-	        		fecha.getHora().getHora(),
-	        		fecha.getHora().getMinuto());
-	        System.out.printf("%.4f;%.4f\n", lista.get(i).getCoordenada().getLatitud(), 
-	        		lista.get(i).getCoordenada().getLongitud());
-	    }
-	}
 
 	@Override
 	public String toString() {
 		String cadena = "";
-		for(int i = 0; i < this.lista.size(); i++) {
-			PosicionPersona pp = lista.get(i);
-	        cadena += String.format("%s;", pp.getDocumento());
-	        FechaHora fecha = pp.getFechaPosicion();        
-	        cadena+=String.format("%02d/%02d/%04d;%02d:%02d;", 
-	        		fecha.getFecha().getDia(), 
-	        		fecha.getFecha().getMes(), 
-	        		fecha.getFecha().getAnio(),
-	        		fecha.getHora().getHora(),
-	        		fecha.getHora().getMinuto());
-	        cadena+=String.format("%.4f;%.4f\n", pp.getCoordenada().getLatitud(), 
-	        		pp.getCoordenada().getLongitud());
-	    }
-		
-		return cadena;		
+		for (PosicionPersona pp: lista) {
+			cadena += pp.toString();
+			cadena += "\n";
+		}
+		//remove last \n
+		cadena = cadena.substring(0, cadena.length()-1);
+		return cadena;
 	}
-	
 
-	
+
+
+
 }
