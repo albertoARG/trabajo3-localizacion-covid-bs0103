@@ -22,7 +22,7 @@ public class Test_3 {
 	private static ContactosCovid contactosCovid;
 
 	@BeforeEach
-	void setUp() throws IOException, EmsInvalidNumberOfDataException, EmsDuplicateLocationException, EmsInvalidTypeException, EmsDuplicatePersonException {
+	void setUp() throws EmsInvalidTypeException, EmsInvalidNumberOfDataException, EmsDuplicatePersonException, EmsDuplicateLocationException, IOException {
 		contactosCovid = new ContactosCovid();
 		contactosCovid.loadDataFile("datos2.txt", false);
 	}

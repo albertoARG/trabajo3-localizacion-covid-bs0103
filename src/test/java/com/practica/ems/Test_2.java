@@ -24,7 +24,7 @@ public class Test_2 {
 	private static ContactosCovid contactosCovid;
 
 	@BeforeEach
-	void setUp() throws IOException, EmsInvalidNumberOfDataException, EmsDuplicateLocationException, EmsInvalidTypeException, EmsDuplicatePersonException {
+	void setUp() throws EmsInvalidTypeException, EmsInvalidNumberOfDataException, EmsDuplicatePersonException, EmsDuplicateLocationException, IOException {
 		contactosCovid = new ContactosCovid();
 		contactosCovid.loadDataFile("datos.txt", false);
 	}
