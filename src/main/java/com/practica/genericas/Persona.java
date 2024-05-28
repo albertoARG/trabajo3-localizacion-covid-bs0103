@@ -1,14 +1,14 @@
 package com.practica.genericas;
 
-
 import com.practica.excecption.EmsInvalidNumberOfDataException;
 
 public class Persona {
-	private static int MAX_DATOS_PERSONA = 8;
+	private static final int MAX_DATOS_PERSONA = 8;
+
 	private String nombre, apellidos, documento, email, direccion, cp;
 	FechaHora fechaNacimiento;
 
-	public static Persona parsePersona(String[] data) throws EmsInvalidNumberOfDataException {
+	public static Persona parsePersona(String[] data) throws EmsInvalidNumberOfDataException{
 		if (data.length != MAX_DATOS_PERSONA) {
 			throw new EmsInvalidNumberOfDataException("Invalid number of fields for PERSONA");
 		}
@@ -49,79 +49,38 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
+	@Override
+	public String toString() {
+		FechaHora fecha = fechaNacimiento;
+		String cadena = "";
+		// Documento
+		cadena += String.format("%s;", documento);
+		// Nombre y apellidos
+		cadena += String.format("%s,%s;", apellidos, nombre);
+		// correo electrónico
+		cadena += String.format("%s;", email);
+		// Direccion y código postal
+		cadena += String.format("%s,%s;", direccion, cp);
+		// Fecha de nacimiento
+		cadena+=fecha.toString();
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getApellidos() {
-		return apellidos;
-	}
-
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
-
-	public String getDocumento() {
-		return documento;
-	}
-
-	public void setDocumento(String documento) {
-		this.documento = documento;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
-	}
-
-	public String getCp() {
-		return cp;
-	}
-
-	public void setCp(String cp) {
-		this.cp = cp;
-	}
-
-	public FechaHora getFechaNacimiento() {
-		return fechaNacimiento;
-	}
-
-	public void setFechaNacimiento(FechaHora fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
+		return cadena;
 	}
 
 	@Override
-	public String toString() {
-		FechaHora fecha = getFechaNacimiento();
-		String cadena = "";
-		// Documento
-		cadena += String.format("%s;", getDocumento());
-		// Nombre y apellidos
-		cadena += String.format("%s,%s;", getApellidos(), getNombre());
-		// correo electrónico
-		cadena += String.format("%s;", getEmail());
-        // Direccion y código postal
-		cadena += String.format("%s,%s;", getDireccion(), getCp());
-        // Fecha de nacimiento
-		cadena+=String.format("%02d/%02d/%04d\n", fecha.getFecha().getDia(), 
-        		fecha.getFecha().getMes(), 
-        		fecha.getFecha().getAnio());
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (this.getClass() != obj.getClass()) {
+			return false;
+		}
+		Persona other = (Persona) obj;
+		return documento.equals(other.documento);
+	}
 
-		return cadena;
+	@Override
+	public int hashCode() {
+		return documento.hashCode();
 	}
 }

@@ -1,7 +1,7 @@
 package com.practica.excecption;
 
 
-public class EmsDuplicatePersonException extends Exception{
+public class EmsDuplicatePersonException extends IllegalArgumentException{
 	public EmsDuplicatePersonException() {
 		super("PERSONA DUPLICADA!");
 		// TODO Auto-generated constructor stub

@@ -1,16 +1,10 @@
 package com.practica.ems.covid;
 
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Stream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Stream;
 
 import com.practica.excecption.EmsDuplicateLocationException;
 import com.practica.excecption.EmsDuplicatePersonException;
@@ -18,8 +12,6 @@ import com.practica.excecption.EmsInvalidNumberOfDataException;
 import com.practica.excecption.EmsInvalidTypeException;
 import com.practica.excecption.EmsLocalizationNotFoundException;
 import com.practica.excecption.EmsPersonNotFoundException;
-import com.practica.genericas.Constantes;
-import com.practica.genericas.Coordenada;
 import com.practica.genericas.FechaHora;
 import com.practica.genericas.Persona;
 import com.practica.genericas.PosicionPersona;
@@ -51,8 +43,6 @@ public class ContactosCovid {
 	public void setLocalizacion(Localizacion localizacion) {
 		this.localizacion = localizacion;
 	}
-	
-	
 
 	public ListaContactos getListaContactos() {
 		return listaContactos;
@@ -70,19 +60,7 @@ public class ContactosCovid {
 		}
 
 		Stream<String> stream = Stream.of(data.split("\\n"));
-		stream.forEach(line -> {
-            try {
-                parseLine(line);
-            } catch (EmsInvalidTypeException e) {
-                throw new RuntimeException(e);
-            } catch (EmsInvalidNumberOfDataException e) {
-                throw new RuntimeException(e);
-            } catch (EmsDuplicatePersonException e) {
-                throw new RuntimeException(e);
-            } catch (EmsDuplicateLocationException e) {
-                throw new RuntimeException(e);
-            }
-        });
+		stream.forEach(line -> parseLine(line));
 	}
 
 	public void loadDataFile(String fichero, boolean reset) throws
@@ -93,30 +71,12 @@ public class ContactosCovid {
 		}
 
 		try (Stream<String> stream = Files.lines(Paths.get(fichero))) {
-			stream.forEach(line -> {
-                try {
-                    parseLine(line);
-                } catch (EmsInvalidTypeException e) {
-                    throw new RuntimeException(e);
-                } catch (EmsInvalidNumberOfDataException e) {
-                    throw new RuntimeException(e);
-                } catch (EmsDuplicatePersonException e) {
-                    throw new RuntimeException(e);
-                } catch (EmsDuplicateLocationException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+			stream.forEach(line -> parseLine(line));
 		}
 	}
 
 	public int findPersona(String documento) throws EmsPersonNotFoundException {
-		int pos;
-		try {
-			pos = this.poblacion.findPersona(documento);
-			return pos;
-		} catch (EmsPersonNotFoundException e) {
-			throw new EmsPersonNotFoundException();
-		}
+		return poblacion.findPersona(documento);
 	}
 
 	public int findLocalizacion(String documento, String fecha, String hora) throws EmsLocalizationNotFoundException {
@@ -129,32 +89,15 @@ public class ContactosCovid {
 	}
 
 	public boolean delPersona(String documento) throws EmsPersonNotFoundException {
-		int cont = 0, pos = -1;
-		Iterator<Persona> it = this.poblacion.getLista().iterator();
-		while (it.hasNext()) {
-			Persona persona = it.next();
-			if (persona.getDocumento().equals(documento)) {
-				pos = cont;
-			}
-			cont++;
-		}
-		if (pos == -1) {
-			throw new EmsPersonNotFoundException();
-		}
-		this.poblacion.getLista().remove(pos);
+		poblacion.delPersona(documento);
 		return false;
-	}
-
-	private String[] dividirEntrada(String input) {
-		String cadenas[] = input.split("\\n");
-		return cadenas;
 	}
 
 	private static String[] dividirLineaData(String data) {
 		return data.split("\\;");
 	}
 
-	private void reset(){
+	private void reset() {
 		this.poblacion = new Poblacion();
 		this.localizacion = new Localizacion();
 		this.listaContactos = new ListaContactos();

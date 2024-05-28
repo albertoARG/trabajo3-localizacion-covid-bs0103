@@ -1,7 +1,6 @@
 package com.practica.ems.covid;
 
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,14 +17,6 @@ public class Localizacion {
 	public Localizacion() {
 		super();
 		this.lista = new LinkedList<PosicionPersona>();
-	};
-	
-	public LinkedList<PosicionPersona> getLista() {
-		return lista;
-	}
-
-	public void setLista(LinkedList<PosicionPersona> lista) {
-		this.lista = lista;
 	}
 
 	public void addLocalizacion (PosicionPersona p) throws EmsDuplicateLocationException {

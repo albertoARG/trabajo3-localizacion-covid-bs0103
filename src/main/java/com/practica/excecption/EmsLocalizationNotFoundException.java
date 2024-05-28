@@ -1,7 +1,7 @@
 package com.practica.excecption;
 
 
-public class EmsLocalizationNotFoundException extends Exception{
+public class EmsLocalizationNotFoundException extends IllegalArgumentException{
 
 	public EmsLocalizationNotFoundException() {
 		super("LOCALIZACION NO ENCONTRADA!");
@@ -12,5 +12,5 @@ public class EmsLocalizationNotFoundException extends Exception{
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 }

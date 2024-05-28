@@ -1,7 +1,7 @@
 package com.practica.excecption;
 
 
-public class EmsPersonNotFoundException extends Exception{
+public class EmsPersonNotFoundException extends IllegalArgumentException{
 
 	public EmsPersonNotFoundException() {
 		super("PERSONA NO ENCONTRADA!");
